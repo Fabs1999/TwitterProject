@@ -22,3 +22,5 @@ if response.data:
         print("Sentiment:", analysis.sentiment)
 else:
     print("No tweets found.")
+
+# All worked!
