@@ -1,5 +1,5 @@
 import tweepy
-from textblob import textblob
+from textblob import TextBlob
 
 
 consumer_key = 'G1Q3InwWo2tB7jdE9oB0l8DkE'
@@ -13,3 +13,9 @@ auth.set_access_token(access_token,access_token_secret)
 
 api = tweepy.API(auth)
 
+public_tweets = api.search_tweets('Trump')
+
+for tweet in public_tweets:
+    print(tweet.text)
+    analysis = TextBlob(tweet.text)
+    print(analysis.sentiment)
