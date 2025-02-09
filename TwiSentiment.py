@@ -2,20 +2,23 @@ import tweepy
 from textblob import TextBlob
 
 
-consumer_key = 'G1Q3InwWo2tB7jdE9oB0l8DkE'
-consumer_secret = 'aHycN4nz31vkDJv1VSuG5yZXrr05EiJ6CvFoV2qdUFZEeS4AAC'
+BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAFSrywEAAAAAxVsr%2B0STKw4PE05BkBZESGAmRBc%3DFEmV77Xf9bjPqjbtSPL7L3COl0uJwp24LrJZurrjBPGiPUMNy4"
 
-access_token = '2223589345-WaBPuaRIAMm4xuAgZwvwRzR5Vctb4Ww6sxVBmfI'
-access_token_secret = 'jrcjfoQMCfPV6FjX1k7QjYOsv1PmkkvAga2JhU6Poxzhf'
 
-auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
-auth.set_access_token(access_token,access_token_secret)
+client = tweepy.Client(bearer_token=BEARER_TOKEN)
 
-api = tweepy.API(auth)
+query = "Trump -is:retweet lang:en"
 
-public_tweets = api.search_tweets('Trump')
 
-for tweet in public_tweets:
-    print(tweet.text)
-    analysis = TextBlob(tweet.text)
-    print(analysis.sentiment)
+response = client.search_recent_tweets(query=query, max_results=10, tweet_fields=["text"])
+
+
+if response.data:
+    for tweet in response.data:
+        print("\nTweet:", tweet.text)
+
+        # Sentiment Analysis
+        analysis = TextBlob(tweet.text)
+        print("Sentiment:", analysis.sentiment)
+else:
+    print("No tweets found.")
